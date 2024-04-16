@@ -5,7 +5,10 @@ Defines the MyInt class.
 
 
 class MyInt(int):
-    """Represents a rebellious version of an integer, perfect for opposite day!"""
+    """
+    Represents a rebellious version of an
+    integer, perfect for opposite day!
+    """
     def __new__(cls, *args, **kwargs):
         """Creates a new instance of the class."""
         return super(MyInt, cls).__new__(cls, *args, **kwargs)
