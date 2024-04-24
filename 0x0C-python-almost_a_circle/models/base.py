@@ -123,7 +123,10 @@ class Base:
 
     @classmethod
     def load_from_file_csv(cls):
-        """Deserializes CSV format from a file and returns a list of instances."""
+        """
+        Deserializes CSV format from a file and
+        returns a list of instances.
+        """
         csv_filename = cls.__name__ + ".csv"
         try:
             with open(csv_filename, "r", newline="") as csvfile:
@@ -136,3 +139,67 @@ class Base:
                 return [cls.create(**d) for d in list_dicts]
         except IOError:
             return []
+
+    @staticmethod
+    def draw(list_rectangles, list_squares):
+        """
+        Utilizes the turtle module to visually
+        represent Rectangles and Squares.
+
+        Args:
+            list_rectangles (list): A list of
+            Rectangle objects to draw.
+            list_squares (list): A list of
+            Square objects to draw.
+        """
+        """Create a turtle object"""
+        t = turtle.Turtle()
+        """Set the background color of the drawing window"""
+        t.screen.bgcolor("#b7312c")
+        """Set the pen size"""
+        t.pensize(3)
+        """Set the shape of the turtle"""
+        t.shape("turtle")
+
+        """Draw rectangles"""
+        t.color("#ffffff")  # Set color for rectangles
+        for rect in list_rectangles:
+            """Show the turtle"""
+            t.showturtle()
+            """Lift the pen up"""
+            t.up()
+            """Move turtle to the starting point of rectangle"""
+            t.goto(rect.x, rect.y)
+            """Put the pen down"""
+            t.down()
+            """Draw the rectangle"""
+            for i in range(2):
+                t.forward(rect.width)
+                t.left(90)
+                t.forward(rect.height)
+                t.left(90)
+            """Hide the turtle after drawing"""
+            t.hideturtle()
+
+        """Draw squares"""
+        t.color("#b5e3d8")  # Set color for squares
+        for sq in list_squares:
+            """Show the turtle"""
+            t.showturtle()
+            """Lift the pen up"""
+            t.up()
+            """Move turtle to the starting point of square"""
+            t.goto(sq.x, sq.y)
+            """Put the pen down"""
+            t.down()
+            """Draw the square"""
+            for i in range(2):
+                t.forward(sq.width)
+                t.left(90)
+                t.forward(sq.height)
+                t.left(90)
+            """Hide the turtle after drawing"""
+            t.hideturtle()
+
+        """Allow user to click on the drawing window to close it"""
+        turtle.exitonclick()
