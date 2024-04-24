@@ -74,3 +74,15 @@ class Base:
             deserialized_list = json.loads(json_string)
 
         return deserialized_list
+
+    @classmethod
+    def create(cls, **dictionary):
+        """Creates and returns an instance with all attributes already set."""
+        # Create an instance of the class
+        if cls.__name__ == 'Rectangle':
+            new_instance = cls(1, 1)
+        elif cls.__name__ == 'Square':
+            new_instance = cls(1)
+
+        new_instance.update(**dictionary)
+        return new_instance
