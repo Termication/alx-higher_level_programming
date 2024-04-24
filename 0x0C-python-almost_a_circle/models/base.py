@@ -5,6 +5,7 @@ import json
 import os
 import turtle
 
+
 class Base:
     """
     Base class for managing id attribute.
@@ -102,3 +103,36 @@ class Base:
                 for dictionary in dictionaries_list:
                     instances_list.append(cls.create(**dictionary))
         return instances_list
+
+    @classmethod
+    def save_to_file_csv(cls, list_objs):
+        """Serializes list_objs and saves them to a CSV file."""
+        csv_filename = cls.__name__ + ".csv"
+        with open(csv_filename, "w", newline="") as csv_file:
+            if list_objs is None or list_objs == []:
+                csv_file.write("[]")
+            else:
+                if cls.__name__ == "Rectangle":
+                    csv_fieldnames = ["id", "width", "height", "x", "y"]
+                else:
+                    csv_fieldnames = ["id", "size", "x", "y"]
+                csv_writer = csv.DictWriter(csv_file,
+                                            fieldnames=csv_fieldnames)
+                for obj in list_objs:
+                    csv_writer.writerow(obj.to_dictionary())
+
+    @classmethod
+    def load_from_file_csv(cls):
+        """Deserializes CSV format from a file and returns a list of instances."""
+        csv_filename = cls.__name__ + ".csv"
+        try:
+            with open(csv_filename, "r", newline="") as csvfile:
+                if cls.__name__ == "Rectangle":
+                    csv_fieldnames = ["id", "width", "height", "x", "y"]
+                else:
+                    csv_fieldnames = ["id", "size", "x", "y"]
+                csv_reader = csv.DictReader(csvfile, fieldnames=csv_fieldnames)
+                list_dicts = [dict([k, int(v)] for k, v in d.items()) for d in csv_reader]
+                return [cls.create(**d) for d in list_dicts]
+        except IOError:
+            return []
