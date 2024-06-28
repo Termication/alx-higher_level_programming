@@ -12,10 +12,10 @@ if __name__ == '__main__':
     get the cities from the database.
     """
 
-    data = MySQLdb.connect(host="localhost", user=argv[1], port=3306,
-                           passwd=argv[2], data=argv[3])
+    db = MySQLdb.connect(host="localhost", user=argv[1], port=3306,
+                           passwd=argv[2], db=argv[3])
 
-    with data.cursor() as cur:
+    with db.cursor() as cur:
         cur.execute("""
             SELECT
                 cities.id, cities.name, states.name
