@@ -1,0 +1,33 @@
+#!/usr/bin/python3
+"""
+Lists all City objects and their corresponding State names from the database hbtn_0e_101_usa.
+"""
+
+import sys
+from relationship_state import Base, State
+from relationship_city import City
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+if __name__ == '__main__':
+    # Create an engine to connect to the MySQL database
+    engine = create_engine('mysql+mysqldb://{}:{}@localhost:3306/{}'.format(
+        sys.argv[1], sys.argv[2], sys.argv[3]), pool_pre_ping=True)
+
+    # Create a sessionmaker to bind the engine to session instances
+    Session = sessionmaker(bind=engine)
+
+    # Create a session to interact with the database
+    session = Session()
+
+    # Query all City objects with their associated State names, ordered by
+    # City.id
+    cities_and_states = session.query(City).join(State).order_by(City.id).all()
+
+    # Iterate over each City object and print its id, name, and associated
+    # State name
+    for city in cities_and_states:
+        print("{}: {} -> {}".format(city.id, city.name, city.state.name))
+
+    # Close the session to free resources
+    session.close()
