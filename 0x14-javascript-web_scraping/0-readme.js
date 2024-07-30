@@ -1,10 +1,10 @@
 #!/usr/bin/node
 
-// Import the file system module
+// Import the fs module for file system operations
 const fs = require('fs');
 
-// Write the content (process.argv[3]) to the specified file (process.argv[2])
-fs.writeFile(process.argv[2], process.argv[3], error => {
-  // Log any errors that occur during the write process
-  if (error) console.log(error);
+// Read the file specified by the first command line argument
+fs.readFile(process.argv[2], 'utf8', function (error, content) {
+  // Output the error if it occurs, otherwise output the file content
+  console.log(error || content);
 });
