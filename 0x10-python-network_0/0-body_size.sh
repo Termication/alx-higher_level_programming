@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# This script takes a URL as an argument, sends a request to that URL,
-# and displays the size of the body of the response.
+# Get the URL from the command-line argument
+URL=$1
 
-# Send a request to the provided URL ($1) and get only the response headers (-I)
-# Use grep to find the line containing 'Content-Length:'
-# Use cut to extract the size value (second field)
-curl -sI "$1" | grep 'Content-Length:' | cut -d' ' -f2
+# Send a request to the URL, retrieve the response, and extract the size of the body in bytes
+curl -s -o /dev/null -w "%{size_download}\n" "$URL"
