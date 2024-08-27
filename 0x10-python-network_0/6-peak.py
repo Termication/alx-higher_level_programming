@@ -3,25 +3,26 @@
 unsorted integers.
 """
 
-
 def find_peak(list_of_integers):
-    """Finds a peak in a list of unsorted integers
+    """Finds a peak in a list of unsorted integers.
     A peak element is an element that is greater than or equal to its
     neighbors.
     """
-    li = list_of_integers
-    n = len(li)
-
-    if n == 0:
+    if list_of_integers == []:
         return None
 
-    mid = n // 2
+    size = len(list_of_integers)
+    if size == 1:
+        return list_of_integers[0]
+    elif size == 2:
+        return max(list_of_integers)
 
-    if (mid == n - 1 or li[mid] >= li[mid + 1]) and \
-       (mid == 0 or li[mid] >= li[mid - 1]):
-        return li[mid]
+    mid = size // 2
+    peak = list_of_integers[mid]
 
-    if mid != n - 1 and li[mid + 1] > li[mid]:
-        return find_peak(li[mid + 1:])
-
-    return find_peak(li[:mid])
+    if peak >= list_of_integers[mid - 1] and peak >= list_of_integers[mid + 1]:
+        return peak
+    elif mid > 0 and list_of_integers[mid - 1] > peak:
+        return find_peak(list_of_integers[:mid])
+    else:
+        return find_peak(list_of_integers[mid + 1:])
