@@ -6,26 +6,19 @@ and displays the body of the response.
 """
 
 if __name__ == "__main__":
-    import urllib.parse as parse
-    import urllib.request as request
-    from sys import argv
+    import urllib.error as error  # To handle HTTP errors
+    import urllib.request as request  # To make HTTP requests
+    from sys import argv  # To access command-line arguments
 
-    # Ensure both URL and email are provided as arguments
-    if len(argv) < 3:
-        print("Usage: ./script.py <URL> <email>")
-        exit(1)
+    # Creating a Request object with the URL passed as the first command-line
+    # argument
+    req = request.Request(argv[1])
 
-    url = argv[1]
-    email = argv[2]
-
-    # Encode the email parameter
-    values = {'email': email}
-    data = parse.urlencode(values).encode('utf-8')
-
-    # Create a POST request with the encoded data
-    req = request.Request(url, data)
-
-    # Send the request and get the response
-    with request.urlopen(req) as response:
-        # Print the body of the response, decoded as UTF-8
-        print(response.read().decode('utf-8'))
+    try:
+        # Attempting to open the URL and read its contents
+        with request.urlopen(req) as r:
+            # Reading and decoding the response from bytes to a UTF-8 string
+            print(r.read().decode('utf-8'))
+    except error.HTTPError as e:
+        # Catching an HTTPError if it occurs and printing the error code
+        print("Error code: {}".format(e.code))
