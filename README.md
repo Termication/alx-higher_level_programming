@@ -1,3 +1,3 @@
 # ALX HIGHER LEVEL OF PROGRAMMING
 
-### Python
+### Python course
